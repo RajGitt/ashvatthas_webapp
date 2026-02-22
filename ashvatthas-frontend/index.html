@@ -223,7 +223,7 @@
         .razorpay-notice { background:#fff8f0; border:1px solid #f0d9b5; padding:1rem; font-size:.78rem; color:#7a5c2e; margin-bottom:1.2rem; line-height:1.8; border-radius:2px; }
 
         /* NOTIFICATION */
-        .notification { position:fixed; top:86px; right:2rem; background:var(--text-dark); color:var(--white); padding:1rem 1.8rem; font-size:.8rem; letter-spacing:.06em; z-index:3000; opacity:0; transform:translateX(420px); transition:all .36s; }
+        .notification { position:fixed; top:86px; right:2rem; background:var(--text-dark); color:var(--white); padding:1rem 1.8rem; font-size:.8rem; letter-spacing:.06em; z-index:99999; opacity:0; transform:translateX(420px); transition:all .36s; pointer-events:none; }
         .notification.show { opacity:1; transform:translateX(0); }
         .notification.success { border-left:3px solid var(--gold); }
         .notification.error { background:#b84040; }
@@ -1213,7 +1213,7 @@
         function showNotif(msg, type='success') {
             const n = document.getElementById('notification');
             n.textContent=msg; n.className=`notification ${type} show`;
-            setTimeout(()=>n.classList.remove('show'),3000);
+            setTimeout(()=>n.classList.remove('show'),4000);
         }
 
         /* ── INIT ── */
