@@ -1,23 +1,60 @@
-# Python
+# ── VIRTUAL ENVIRONMENT ──────────────────────
+ashvatthas-backend/ashvatthas-venv/
+venv/
+.venv/
+env/
+ENV/
+
+# ── PYTHON ───────────────────────────────────
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-ashvatthas-venv/
-venv/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
 
-# Environment
+# ── SECRETS & ENVIRONMENT VARIABLES ─────────
 .env
 .env.local
-.env.*
+.env.development
+.env.production
+.env.*.local
 *.env
 
-# Node
-node_modules/
+# ── DATABASE (local dev only) ────────────────
+*.db
+*.sqlite
+*.sqlite3
 
-# Vercel
+# ── ALEMBIC CACHE ────────────────────────────
+alembic/versions/__pycache__/
+
+# ── LOGS ─────────────────────────────────────
+*.log
+logs/
+
+# ── IDE & EDITOR ─────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OPERATING SYSTEM ─────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── VERCEL ───────────────────────────────────
 .vercel/
 
-# OS
-.DS_Store
+# ── NODE (if ever added) ─────────────────────
+node_modules/
+
+# ── TESTING ──────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
 
