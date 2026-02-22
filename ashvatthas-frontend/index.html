@@ -429,7 +429,7 @@
                     <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </span>
                 <div class="user-dropdown" id="userDropdown">
-                    <div id="guestLinks"><a onclick="showLogin()">Login</a><a onclick="showRegister()">Register</a></div>
+                    <div id="guestLinks" style="display:none;"><a onclick="showLogin()">Login</a><a onclick="showRegister()">Register</a></div>
                     <div id="userLinks" style="display:none;"><a onclick="logout()">Logout</a></div>
                 </div>
             </span>
@@ -446,10 +446,6 @@
         <a href="#home" onclick="toggleMobileMenu()">Home</a>
         <a href="#collections" onclick="toggleMobileMenu()">Collections</a>
         <a href="#contact" onclick="openContactNewTab(event);toggleMobileMenu()">Contact Us</a>
-        <div style="display:flex;gap:1.5rem;margin-top:1rem;">
-            <a onclick="showLogin();toggleMobileMenu()" style="font-size:1rem;letter-spacing:.12em;">Login</a>
-            <a onclick="showRegister();toggleMobileMenu()" style="font-size:1rem;letter-spacing:.12em;">Register</a>
-        </div>
     </div>
 
     <!-- HERO — Prada layout: image fills space between nav and bottom bar -->
@@ -1223,7 +1219,7 @@
                 document.getElementById('userLinks').style.display='';
             } else {
                 currentUser = null;
-                document.getElementById('guestLinks').style.display='';
+                document.getElementById('guestLinks').style.display='block';
                 document.getElementById('userLinks').style.display='none';
             }
         }
