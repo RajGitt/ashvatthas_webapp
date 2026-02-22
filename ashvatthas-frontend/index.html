@@ -124,12 +124,20 @@
         /* FOOTER */
         footer { position:relative; background-color:#FAF8F3; border-top:1px solid #d4e0da; }
         footer::before { display:none; }
-        .footer-bar { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; padding:1rem 2.8rem; flex-wrap:nowrap; gap:1rem; }
-        .footer-copy { font-size:.75rem; color:#4a6258; letter-spacing:.03em; font-weight:300; white-space:nowrap; }
-        .footer-socials { display:flex; align-items:center; gap:1.2rem; }
+        /* FOOTER */
+        .footer-top { display:flex; align-items:center; justify-content:space-between; padding:1.6rem 2.8rem 1.2rem; border-bottom:1px solid rgba(31,47,40,.1); }
+        .footer-brand-block { display:flex; flex-direction:column; gap:.3rem; }
+        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:500; color:#1F2F28; letter-spacing:.15em; text-transform:uppercase; }
+        .footer-brand-tagline { font-size:.62rem; color:#7a9088; letter-spacing:.12em; text-transform:uppercase; font-weight:300; }
+        .footer-socials { display:flex; align-items:center; gap:1.4rem; }
         .footer-socials a { color:#4a6258; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:color .22s; }
         .footer-socials a:hover { color:#1F2F28; }
-        .footer-socials svg { width:16px; height:16px; }
+        .footer-socials svg { width:18px; height:18px; }
+        .footer-bottom-bar { display:flex; align-items:center; justify-content:space-between; padding:.9rem 2.8rem; }
+        .footer-copy { font-size:.7rem; color:#7a9088; letter-spacing:.03em; font-weight:300; }
+        .footer-links-row { display:flex; align-items:center; gap:.9rem; }
+        .footer-sep { color:rgba(31,47,40,.2); font-size:.7rem; }
+        .footer-delivery { color:#4a6258; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
 
         /* MODALS base */
         .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.62); z-index:5500; justify-content:center; align-items:center; backdrop-filter:blur(6px); }
@@ -260,7 +268,8 @@
             .hero { min-height:85vh; }
             .hero-campaign-title { font-size:.7rem !important; letter-spacing:.18em; }
             .hero-logo-topleft { top:1rem !important; left:1rem !important; }
-            .logo-circle { width:64px !important; height:64px !important; }
+            .logo-circle { width:90px !important; height:90px !important; }
+            .logo-circle img { width:68px !important; height:68px !important; }
 
             /* COLLECTIONS */
             #collections { padding:5rem 1rem 3rem; }
@@ -274,7 +283,13 @@
             #about { padding:3.5rem 1.2rem 3rem; }
 
             /* FOOTER */
-            .footer-bar { padding:1.2rem 1rem; flex-direction:column; gap:.6rem; text-align:center; }
+            .footer-top { flex-direction:column; gap:1.2rem; padding:1.4rem 1.2rem 1rem; text-align:center; }
+            .footer-brand-block { align-items:center; }
+            .footer-socials { gap:1.8rem; }
+            .footer-socials svg { width:22px; height:22px; }
+            .footer-bottom-bar { flex-direction:column; gap:.6rem; padding:.9rem 1rem; text-align:center; }
+            .footer-links-row { flex-direction:column; gap:.5rem; }
+            .footer-sep { display:none; }
 
             /* MODALS */
             .modal-content { padding:1.6rem 1.2rem; width:96%; max-height:90vh; overflow-y:auto; }
@@ -483,17 +498,23 @@
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-bar">
-            <span class="footer-copy">© 2025 Ashvatthas. All Rights Reserved.</span>
-            <div style="display:flex;align-items:center;gap:1.2rem;position:relative;z-index:1;">
-                <button class="footer-policy-link" onclick="openPolicyModal()">Return &amp; Exchange Policy</button>
-                <span style="color:rgba(31,47,40,.25);font-size:.7rem;">|</span>
-                <span style="color:#4a6258;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;">Pan-India Delivery</span>
+        <div class="footer-top">
+            <div class="footer-brand-block">
+                <div class="footer-brand-name">Ashvatthas</div>
+                <div class="footer-brand-tagline">Come vibe with the roots of fashion</div>
             </div>
             <div class="footer-socials">
                 <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
                 <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg></a>
                 <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <span class="footer-copy">© 2025 Ashvatthas. All Rights Reserved.</span>
+            <div class="footer-links-row">
+                <button class="footer-policy-link" onclick="openPolicyModal()">Return &amp; Exchange Policy</button>
+                <span class="footer-sep">|</span>
+                <span class="footer-delivery">Pan-India Delivery</span>
             </div>
         </div>
     </footer>
@@ -1199,10 +1220,10 @@
             if (token && email) {
                 currentUser = {email, token};
                 document.getElementById('guestLinks').style.display='none';
-                document.getElementById('userLinks').style.display='block';
+                document.getElementById('userLinks').style.display='';
             } else {
                 currentUser = null;
-                document.getElementById('guestLinks').style.display='block';
+                document.getElementById('guestLinks').style.display='';
                 document.getElementById('userLinks').style.display='none';
             }
         }
