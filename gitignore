@@ -1,0 +1,65 @@
+# ── VIRTUAL ENVIRONMENT ──────────────────────
+# Your venv folder was named ashwathas-venv
+ashwathas-venv/
+venv/
+.venv/
+env/
+ENV/
+
+# ── PYTHON ───────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ── SECRETS & ENVIRONMENT VARIABLES ─────────
+# Contains SECRET_KEY, DATABASE_URL, JWT secret,
+# Razorpay keys, email passwords, Redis URL etc.
+# Set these in Railway dashboard instead
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# ── DATABASE ──────────────────────────────────
+# Local SQLite dev database — never commit this
+*.db
+*.sqlite
+*.sqlite3
+
+# ── ALEMBIC ───────────────────────────────────
+# Keep the alembic/ folder (has migration scripts)
+# but ignore Python cache inside it
+alembic/versions/__pycache__/
+
+# ── LOGS ──────────────────────────────────────
+*.log
+logs/
+
+# ── IDE & EDITOR ──────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OPERATING SYSTEM ──────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── VERCEL ────────────────────────────────────
+.vercel/
+
+# ── NODE (if ever added) ──────────────────────
+node_modules/
+
+# ── TESTING ───────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/

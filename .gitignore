@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+ashvatthas-venv/
+venv/
+
+# Environment
+.env
+.env.local
+.env.*
+*.env
+
+# Node
+node_modules/
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
+
