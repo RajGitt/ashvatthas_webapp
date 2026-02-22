@@ -229,8 +229,81 @@
         .notification.error { background:#b84040; }
 
         /* RESPONSIVE */
-        @media(max-width:1024px) { nav{padding:1.3rem 2rem} #collections{padding:7rem 2rem 4rem} .products-grid{grid-template-columns:repeat(auto-fill,minmax(256px,1fr));gap:1.6rem} }
-        @media(max-width:768px) { nav{padding:1rem 1.4rem} .nav-links{display:none} .hero h1{font-size:3rem} .hero-content{padding:0 1.6rem 4rem} #collections{padding:6rem 1.4rem 3rem} .products-grid{grid-template-columns:1fr} #about{padding:5rem 1.4rem 4rem} .footer-bar{padding:1.5rem} .modal-content{padding:2rem;width:95%} .cart-item{flex-direction:column} .notification{right:1rem;left:1rem} body{cursor:auto} .cursor{display:none} }
+        @media(max-width:1024px) {
+            nav { padding:1.3rem 2rem }
+            #collections { padding:7rem 2rem 4rem }
+            .products-grid { grid-template-columns:repeat(auto-fill,minmax(256px,1fr)); gap:1.6rem }
+        }
+
+        /* ── MOBILE ── */
+        @media(max-width:768px) {
+            body { cursor:auto; font-size:15px; }
+            .cursor { display:none; }
+
+            /* NAV */
+            nav { padding:.85rem 1.2rem; }
+            .nav-links { display:none; }
+            .logo-name { font-size:1rem; }
+            .logo-slogan { font-size:.52rem; }
+            .nav-icon svg { width:22px; height:22px; }
+
+            /* Hamburger menu */
+            .hamburger { display:flex !important; flex-direction:column; gap:5px; cursor:pointer; padding:.3rem; }
+            .nav-links { display:none !important; }
+            .hamburger span { display:block; width:22px; height:2px; background:currentColor; transition:.3s; }
+            .mobile-menu { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:#FAF8F3; z-index:8000; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+            .mobile-menu.active { display:flex; }
+            .mobile-menu a { font-family:'Cormorant Garamond',serif; font-size:2rem; color:#1F2F28; text-decoration:none; letter-spacing:.1em; }
+            .mobile-menu-close { position:absolute; top:1.5rem; right:1.5rem; font-size:1.8rem; cursor:pointer; color:#1F2F28; background:none; border:none; }
+
+            /* HERO */
+            .hero { min-height:85vh; }
+            .hero-campaign-title { font-size:.7rem !important; letter-spacing:.18em; }
+            .hero-logo-topleft { top:1rem !important; left:1rem !important; }
+            .logo-circle { width:64px !important; height:64px !important; }
+
+            /* COLLECTIONS */
+            #collections { padding:5rem 1rem 3rem; }
+            .products-grid { grid-template-columns:repeat(2,1fr); gap:.8rem; }
+            .section-title { font-size:1.6rem; }
+            .product-card-name { font-size:.9rem; }
+            .product-card-price { font-size:.9rem; }
+            .product-card-footer { padding:.8rem 1rem; }
+
+            /* ABOUT */
+            #about { padding:3.5rem 1.2rem 3rem; }
+
+            /* FOOTER */
+            .footer-bar { padding:1.2rem 1rem; flex-direction:column; gap:.6rem; text-align:center; }
+
+            /* MODALS */
+            .modal-content { padding:1.6rem 1.2rem; width:96%; max-height:90vh; overflow-y:auto; }
+            .modal-content h3 { font-size:1.3rem; }
+            .form-group input { font-size:16px; } /* prevent iOS zoom */
+
+            /* CART */
+            .cart-modal { width:100% !important; right:0 !important; }
+            .cart-item { flex-direction:column; gap:.8rem; }
+            .cart-item-image { width:100%; height:160px; }
+            .cart-item-price { align-self:flex-start; }
+
+            /* PRODUCT PAGE */
+            .pp-header { padding:.8rem 1rem; }
+            .pp-layout { flex-direction:column !important; }
+            .pp-images { width:100% !important; }
+            .pp-info { width:100% !important; padding:1.2rem !important; }
+
+            /* CHECKOUT */
+            .checkout-modal .modal-content { width:98%; padding:1.4rem 1rem; }
+
+            /* NOTIFICATION */
+            .notification { right:1rem; left:1rem; text-align:center; }
+        }
+
+        @media(max-width:380px) {
+            .products-grid { grid-template-columns:1fr; }
+            .hero { min-height:75vh; }
+        }
 
         /* PRODUCT DETAIL PAGE (new tab) */
         .product-page { display:none; position:fixed; inset:0; background:var(--body-bg); z-index:4000; overflow-y:auto; }
@@ -345,8 +418,24 @@
                     <div id="userLinks" style="display:none;"><a onclick="logout()">Logout</a></div>
                 </div>
             </span>
+            <!-- Hamburger — only visible on mobile -->
+            <div class="hamburger" id="hamburger" style="display:none;" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">&#10005;</button>
+        <a href="#home" onclick="toggleMobileMenu()">Home</a>
+        <a href="#collections" onclick="toggleMobileMenu()">Collections</a>
+        <a href="#contact" onclick="openContactNewTab(event);toggleMobileMenu()">Contact Us</a>
+        <div style="display:flex;gap:1.5rem;margin-top:1rem;">
+            <a onclick="showLogin();toggleMobileMenu()" style="font-size:1rem;letter-spacing:.12em;">Login</a>
+            <a onclick="showRegister();toggleMobileMenu()" style="font-size:1rem;letter-spacing:.12em;">Register</a>
+        </div>
+    </div>
 
     <!-- HERO — Prada layout: image fills space between nav and bottom bar -->
     <div class="hero-outer" id="home">
@@ -909,7 +998,10 @@
                                     <span class="qty-display">${i.quantity}</span>
                                     <button class="qty-btn" onclick="updateQty(${i.id},1)">+</button>
                                 </div>
-                                <div class="cart-remove" onclick="removeItem(${i.id})">Remove</div>
+                                <button onclick="removeItem(${i.id})" style="margin-top:.5rem;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.35rem;color:#b84040;font-size:.72rem;letter-spacing:.06em;font-family:'Jost',sans-serif;padding:0;text-transform:uppercase;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    Delete
+                                </button>
                             </div>
                             <div class="cart-item-price">&#8377;${(i.product.price*i.quantity).toLocaleString()}</div>
                         </div>`;
@@ -934,6 +1026,10 @@
 
         function removeItem(id) { cart=cart.filter(i=>i.id!==id); updateCartUI(); showNotif('Removed from cart','success'); }
         function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
         function closeCart() { document.getElementById('cartModal').classList.remove('active'); }
 
         /* ── CHECKOUT FLOW ── */
@@ -1219,6 +1315,13 @@
         /* ── INIT ── */
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth(); displayProducts(); updateCartUI();
+            // Show hamburger on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('hamburger').style.display = 'flex';
+            }
+            window.addEventListener('resize', () => {
+                document.getElementById('hamburger').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+            });
             const cursor = document.getElementById('cursor');
             document.addEventListener('mousemove', e => { cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
             document.querySelectorAll('a, button, .nav-icon, .product-card').forEach(el => {
