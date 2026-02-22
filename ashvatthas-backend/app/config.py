@@ -20,8 +20,13 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = ["http://localhost:3000"]
-    
+    ALLOWED_ORIGINS: List[str] = [
+    "http://localhost:3000",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "https://ashvatthas.vercel.app",
+    "https://ashwathas.vercel.app",
+    ]
     # Email
     MAIL_USERNAME: str
     MAIL_PASSWORD: str
