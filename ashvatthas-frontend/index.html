@@ -48,7 +48,7 @@
         .logo { display:flex; flex-direction:column; align-items:flex-start; text-decoration:none; line-height:1; gap:.1rem; }
         .logo-icon { display:none; }
         .logo-text-block { display:flex; flex-direction:column; gap:.05rem; }
-        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#1a4025; letter-spacing:.22em; text-transform:none; line-height:1; }
+        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#2c5f3a; letter-spacing:.22em; text-transform:none; line-height:1; }
         .logo-slogan { font-family:'Cormorant Garamond',serif; font-size:.92rem; font-weight:500; color:#c8a96e; letter-spacing:.1em; font-style:italic; line-height:1; text-transform:none; }
 
         .nav-links { display:flex; gap:2.8rem; list-style:none; align-items:center; }
@@ -74,7 +74,7 @@
         .hero::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 50%, rgba(0,0,0,.38) 100%); }
         /* SVG logo top-left inside the photo */
         .hero-logo-topleft { position:absolute; top:1.6rem; left:2rem; z-index:3; }
-        .hero-logo-topleft .logo-circle { width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.97); display:flex; align-items:center; justify-content:center; box-shadow:0 3px 24px rgba(0,0,0,.25); }
+        .hero-logo-topleft .logo-circle { width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.97); display:flex; align-items:center; justify-content:center; box-shadow:0 3px 24px rgba(0,0,0,.25); overflow:hidden; padding:8px; }
         /* Campaign text centered on image */
         .hero-campaign { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); z-index:3; text-align:center; white-space:nowrap; }
         .hero-campaign-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,3vw,2.6rem); font-weight:700; color:#f5e6c8; letter-spacing:.12em; text-shadow:0 2px 18px rgba(0,0,0,.55); display:block; }
@@ -128,7 +128,7 @@
         /* FOOTER */
         .footer-top { display:flex; align-items:center; justify-content:space-between; padding:1.6rem 2.8rem 1.2rem; border-bottom:1px solid rgba(31,47,40,.1); }
         .footer-brand-block { display:flex; flex-direction:column; gap:.3rem; }
-        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#1a4025; letter-spacing:.15em; text-transform:none; }
+        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#2c5f3a; letter-spacing:.15em; text-transform:none; }
         .footer-brand-tagline { font-family:'Cormorant Garamond',serif; font-size:.95rem; color:#c8a96e; letter-spacing:.1em; font-style:italic; font-weight:500; }
         .footer-socials { display:flex; align-items:center; gap:1.4rem; }
         .footer-socials a { color:#4a6258; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:color .22s; }
@@ -249,12 +249,13 @@
             body { cursor:auto; font-size:15px; }
             .cursor { display:none; }
 
-            /* NAV */
-            nav { padding:.85rem 1.2rem; }
+            /* NAV — bigger on mobile */
+            nav { padding:.85rem 1.2rem; height:60px; }
             .nav-links { display:none; }
-            .logo-name { font-size:1rem; }
-            .logo-slogan { font-size:.6rem; font-weight:700 !important; }
-            .nav-icon svg { width:22px; height:22px; }
+            .logo-name { font-size:1.2rem; }
+            .logo-slogan { font-size:.65rem; font-weight:600 !important; }
+            .nav-icon svg { width:26px; height:26px; }
+            .cart-count { font-size:.65rem !important; width:18px !important; height:18px !important; }
 
             /* Hamburger menu */
             .hamburger { display:flex !important; flex-direction:column; gap:5px; cursor:pointer; padding:.3rem; }
@@ -265,13 +266,11 @@
             .mobile-menu a { font-family:'Cormorant Garamond',serif; font-size:2rem; color:#1F2F28; text-decoration:none; letter-spacing:.1em; }
             .mobile-menu-close { position:absolute; top:1.5rem; right:1.5rem; font-size:1.8rem; cursor:pointer; color:#1F2F28; background:none; border:none; }
 
-            /* NAV white on mobile */
-            nav { background:#ffffff !important; }
-
             /* HERO */
             .hero { min-height:85vh; }
-            .hero-bottom-bar { height:48px; }
-            .hero-campaign-title { font-size:1.3rem !important; letter-spacing:.1em; color:#ffffff !important; font-weight:700 !important; }
+            .hero-bottom-bar { height:80px; }
+            .hero-outer { padding-top:60px; }  /* match bigger nav */
+            .hero-campaign-title { font-size:1.15rem !important; letter-spacing:.08em !important; color:#ffffff !important; font-weight:700 !important; }
             .hero-logo-topleft { top:1rem !important; left:1rem !important; }
             .logo-circle { width:90px !important; height:90px !important; }
             .logo-circle img { width:68px !important; height:68px !important; }
@@ -307,15 +306,16 @@
             .cart-item-image { width:100%; height:160px; }
             .cart-item-price { align-self:flex-start; }
 
-            /* PRODUCT PAGE */
-            .pp-header { padding:.7rem .8rem; }
-            .pp-body { grid-template-columns:1fr !important; gap:0 !important; padding:.8rem !important; }
-            .pp-zoom-wrapper { position:static !important; }
-            .pp-gallery-inner { height:300px !important; }
-            .pp-gallery .slider-wrapper { height:300px !important; }
-            .pp-gallery .slider-track img { min-height:300px !important; object-fit:cover; }
+            /* PRODUCT PAGE MOBILE */
+            .pp-header { padding:.9rem 1rem; }
+            .pp-body { grid-template-columns:1fr !important; gap:0 !important; padding:.8rem .9rem 2rem !important; }
+            .pp-zoom-wrapper { position:static !important; top:auto !important; }
+            .pp-gallery-inner { height:320px !important; }
+            .pp-gallery .slider-wrapper { height:320px !important; }
+            .pp-gallery .slider-track img { min-height:320px !important; object-fit:cover !important; }
             .pp-zoom-controls { display:none !important; }
-            .pp-name { font-size:1.4rem !important; }
+            .pp-name { font-size:1.5rem !important; margin-top:.5rem; }
+            .pp-price { font-size:1.3rem !important; }
             .pp-info { padding:.8rem 0 !important; }
             .pp-layout { flex-direction:column !important; }
             .pp-images { width:100% !important; }
@@ -330,10 +330,6 @@
         @media(max-width:380px) {
             .products-grid { grid-template-columns:1fr; }
             .hero { min-height:75vh; }
-            .hero-campaign-title { font-size:1.1rem !important; }
-            .pp-gallery-inner { height:240px !important; }
-            .pp-gallery .slider-wrapper { height:240px !important; }
-            .pp-gallery .slider-track img { min-height:240px !important; }
         }
 
         /* PRODUCT DETAIL PAGE (new tab) */
@@ -344,16 +340,16 @@
         .pp-back:hover { opacity:.7; }
         .pp-logo-small { font-family:'Cormorant Garamond',serif; font-size:1.1rem; letter-spacing:.2em; color:#1F2F28; text-transform:uppercase; }
         .pp-body { max-width:1300px; margin:0 auto; padding:2.5rem 3.5rem; display:grid; grid-template-columns:55% 1fr; gap:5rem; align-items:start; }
-        .pp-zoom-wrapper { position:sticky; top:58px; height:fit-content; z-index:5; }
+        .pp-zoom-wrapper { position:sticky; top:58px; height:fit-content; z-index:5; align-self:start; }
         /* gallery is the clipping container — controls float on top of it */
         .pp-gallery { height:fit-content; position:relative; }
-        .pp-gallery-inner { position:relative; height:580px; overflow:hidden; background:#f7f7f5; border-radius:4px; }
+        .pp-gallery-inner { position:relative; height:620px; overflow:hidden; background:#f7f7f5; }
         .pp-zoom-frame { width:100%; height:100%; transition:transform .4s cubic-bezier(.25,.46,.45,.94); transform-origin:center center; }
-        .pp-gallery .slider-wrapper { height:580px; border-radius:0; overflow:visible; background:transparent; position:relative; }
-        .pp-gallery .slider-track img { min-height:580px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
+        .pp-gallery .slider-wrapper { height:280px; border-radius:0; overflow:visible; background:transparent; position:relative; }
+        .pp-gallery .slider-track img { min-height:280px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
         /* Controls pinned to bottom of gallery-inner — never moves */
         .pp-zoom-controls { position:absolute; bottom:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:center; gap:.8rem; padding:.65rem 1rem; background:rgba(250,248,243,.92); border-top:1px solid #d4e0da; backdrop-filter:blur(4px); }
-        .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; padding-left:1rem; }
+        .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; }
         .pp-category { font-size:.64rem; color:var(--gold); letter-spacing:.25em; text-transform:uppercase; font-weight:500; margin-bottom:.6rem; }
         .pp-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--text-dark); line-height:1.15; margin-bottom:.6rem; letter-spacing:.01em; }
         .pp-price { font-size:1.6rem; font-weight:400; color:var(--text-dark); margin-bottom:1.2rem; letter-spacing:.02em; }
@@ -830,12 +826,11 @@
                                 ${buildSlider(pid, slides, false, sliderId)}
                             </div>
                             <!-- Controls sit INSIDE the clipping container, pinned to bottom, always visible -->
-                            <div class="pp-zoom-controls" id="ppZoomControls">
+                            <div class="pp-zoom-controls">
                                 <button class="pp-zoom-btn" id="ppZoomOut" onclick="ppZoom(-1)" title="Zoom out" disabled>&#8722;</button>
                                 <span class="pp-zoom-level" id="ppZoomLabel">1×</span>
                                 <button class="pp-zoom-btn" id="ppZoomIn" onclick="ppZoom(1)" title="Zoom in">+</button>
                             </div>
-                            <div style="position:absolute;bottom:50px;left:50%;transform:translateX(-50%);font-size:.65rem;color:#999;letter-spacing:.08em;white-space:nowrap;pointer-events:none;" id="ppDblHint">Double-tap image to zoom</div>
                         </div>
                     </div>
                 </div>
@@ -880,30 +875,9 @@
             page.classList.add('active');
             page.scrollTop = 0;
             ppZoomLevel = 0;
+            ppPanX = 0; ppPanY = 0;
             _applyPPZoom();
-
-            // Double-click/tap to zoom toggle
-            setTimeout(() => {
-                const galleryInner = document.querySelector('.pp-gallery-inner');
-                const hint = document.getElementById('ppDblHint');
-                if (galleryInner) {
-                    galleryInner.addEventListener('dblclick', function() {
-                        if (ppZoomLevel === 0) {
-                            ppZoomLevel = 2; // jump to 2x
-                        } else {
-                            ppZoomLevel = 0; // back to 1x
-                        }
-                        _applyPPZoom();
-                    });
-                }
-                // Hide hint after 3 seconds
-                if (hint) setTimeout(() => { hint.style.opacity='0'; hint.style.transition='opacity 1s'; }, 3000);
-                // On mobile, hide zoom buttons and show double-tap
-                if (window.innerWidth <= 768) {
-                    const controls = document.getElementById('ppZoomControls');
-                    if (controls) controls.style.display = 'none';
-                }
-            }, 100);
+            setTimeout(_setupPPPan, 100);
             history.pushState({ productPage: pid }, '', '#product-' + pid);
         }
 
@@ -928,14 +902,29 @@
             _applyPPZoom();
         }
 
-        function _applyPPZoom() {
+        // Pan state for zoomed image
+        let ppPanX = 0, ppPanY = 0;
+        let ppPanning = false, ppPanStartX = 0, ppPanStartY = 0, ppPanOriginX = 0, ppPanOriginY = 0;
+
+        function _applyPPZoom(originX, originY) {
             const scale = ppZoomLevels[ppZoomLevel];
             const frame = document.getElementById('ppZoomFrame');
             if (frame) {
-                frame.style.transform = scale === 1 ? '' : `scale(${scale})`;
-                // Block ALL pointer events on frame when zoomed — prevents any drag/swipe/pan
-                frame.style.pointerEvents = scale === 1 ? 'auto' : 'none';
-                frame.style.cursor = 'default';
+                if (scale === 1) {
+                    ppPanX = 0; ppPanY = 0;
+                    frame.style.transform = '';
+                    frame.style.transformOrigin = 'center center';
+                    frame.style.cursor = 'crosshair';
+                } else {
+                    // Zoom into click origin point
+                    const ox = originX !== undefined ? originX + '%' : '50%';
+                    const oy = originY !== undefined ? originY + '%' : '50%';
+                    frame.style.transformOrigin = ox + ' ' + oy;
+                    frame.style.transform = `scale(${scale}) translate(${ppPanX}px, ${ppPanY}px)`;
+                    frame.style.cursor = 'grab';
+                }
+                frame.style.pointerEvents = 'auto';
+                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
             }
             const label = document.getElementById('ppZoomLabel');
             if (label) label.textContent = scale + '×';
@@ -943,6 +932,95 @@
             const zoomOut = document.getElementById('ppZoomOut');
             if (zoomIn) zoomIn.disabled = ppZoomLevel >= ppZoomLevels.length - 1;
             if (zoomOut) zoomOut.disabled = ppZoomLevel <= 0;
+        }
+
+        function _setupPPPan() {
+            const inner = document.querySelector('.pp-gallery-inner');
+            const frame = document.getElementById('ppZoomFrame');
+            if (!inner || !frame) return;
+
+            // Click to zoom at position
+            inner.addEventListener('click', function(e) {
+                if (ppPanning) return;
+                const rect = inner.getBoundingClientRect();
+                const ox = ((e.clientX - rect.left) / rect.width) * 100;
+                const oy = ((e.clientY - rect.top) / rect.height) * 100;
+                if (ppZoomLevel === 0) {
+                    ppZoomLevel = 2; // zoom to 2x on click
+                    _applyPPZoom(ox, oy);
+                } else if (ppZoomLevel >= ppZoomLevels.length - 1) {
+                    ppZoomLevel = 0;
+                    _applyPPZoom();
+                } else {
+                    ppZoomLevel++;
+                    _applyPPZoom(ox, oy);
+                }
+            });
+
+            // Mouse pan
+            inner.addEventListener('mousedown', function(e) {
+                if (ppZoomLevel === 0) return;
+                ppPanning = false;
+                ppPanStartX = e.clientX - ppPanX;
+                ppPanStartY = e.clientY - ppPanY;
+                frame.style.cursor = 'grabbing';
+                frame.style.transition = 'none';
+                inner.addEventListener('mousemove', onMouseMove);
+                inner.addEventListener('mouseup', onMouseUp);
+                inner.addEventListener('mouseleave', onMouseUp);
+            });
+
+            function onMouseMove(e) {
+                ppPanning = true;
+                ppPanX = e.clientX - ppPanStartX;
+                ppPanY = e.clientY - ppPanStartY;
+                frame.style.transform = `scale(${ppZoomLevels[ppZoomLevel]}) translate(${ppPanX}px, ${ppPanY}px)`;
+            }
+            function onMouseUp() {
+                frame.style.cursor = 'grab';
+                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
+                inner.removeEventListener('mousemove', onMouseMove);
+                inner.removeEventListener('mouseup', onMouseUp);
+                inner.removeEventListener('mouseleave', onMouseUp);
+                setTimeout(() => { ppPanning = false; }, 50);
+            }
+
+            // Touch pan
+            let touchStart = null;
+            inner.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1 && ppZoomLevel > 0) {
+                    touchStart = { x: e.touches[0].clientX - ppPanX, y: e.touches[0].clientY - ppPanY };
+                    frame.style.transition = 'none';
+                }
+            }, {passive:true});
+            inner.addEventListener('touchmove', function(e) {
+                if (touchStart && e.touches.length === 1 && ppZoomLevel > 0) {
+                    e.preventDefault();
+                    ppPanX = e.touches[0].clientX - touchStart.x;
+                    ppPanY = e.touches[0].clientY - touchStart.y;
+                    frame.style.transform = `scale(${ppZoomLevels[ppZoomLevel]}) translate(${ppPanX}px, ${ppPanY}px)`;
+                }
+            }, {passive:false});
+            inner.addEventListener('touchend', function() {
+                touchStart = null;
+                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
+            });
+
+            // Double-tap to zoom in/out on mobile
+            let lastTap = 0;
+            inner.addEventListener('touchend', function(e) {
+                const now = Date.now();
+                if (now - lastTap < 300) {
+                    const touch = e.changedTouches[0];
+                    const rect = inner.getBoundingClientRect();
+                    const ox = ((touch.clientX - rect.left) / rect.width) * 100;
+                    const oy = ((touch.clientY - rect.top) / rect.height) * 100;
+                    ppPanX = 0; ppPanY = 0;
+                    ppZoomLevel = ppZoomLevel === 0 ? 2 : 0;
+                    _applyPPZoom(ox, oy);
+                }
+                lastTap = now;
+            });
         }
 
         function ppSelectSize(pid, btn) {
