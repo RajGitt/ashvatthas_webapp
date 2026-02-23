@@ -48,8 +48,8 @@
         .logo { display:flex; flex-direction:column; align-items:flex-start; text-decoration:none; line-height:1; gap:.1rem; }
         .logo-icon { display:none; }
         .logo-text-block { display:flex; flex-direction:column; gap:.05rem; }
-        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:500; color:#1F2F28; letter-spacing:.22em; text-transform:none; line-height:1; }
-        .logo-slogan { font-family:'Cormorant Garamond',serif; font-size:.8rem; font-weight:500; color:#c8a96e; letter-spacing:.1em; font-style:italic; line-height:1; text-transform:none; }
+        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#2c5f3a; letter-spacing:.22em; text-transform:none; line-height:1; }
+        .logo-slogan { font-family:'Cormorant Garamond',serif; font-size:.92rem; font-weight:500; color:#c8a96e; letter-spacing:.1em; font-style:italic; line-height:1; text-transform:none; }
 
         .nav-links { display:flex; gap:2.8rem; list-style:none; align-items:center; }
         .nav-links a { text-decoration:none; color:#1F2F28; font-size:.78rem; font-weight:400; letter-spacing:.14em; text-transform:uppercase; transition:opacity .22s; position:relative; cursor:pointer; }
@@ -74,10 +74,10 @@
         .hero::after { content:''; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,.18) 0%, rgba(0,0,0,.08) 50%, rgba(0,0,0,.38) 100%); }
         /* SVG logo top-left inside the photo */
         .hero-logo-topleft { position:absolute; top:1.6rem; left:2rem; z-index:3; }
-        .hero-logo-topleft .logo-circle { width:100px; height:100px; border-radius:50%; background:rgba(255,255,255,.97); display:flex; align-items:center; justify-content:center; box-shadow:0 3px 24px rgba(0,0,0,.25); }
+        .hero-logo-topleft .logo-circle { width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.97); display:flex; align-items:center; justify-content:center; box-shadow:0 3px 24px rgba(0,0,0,.25); }
         /* Campaign text centered on image */
         .hero-campaign { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); z-index:3; text-align:center; white-space:nowrap; }
-        .hero-campaign-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,3vw,2.6rem); font-weight:700; color:#6b3a2a; letter-spacing:.12em; text-shadow:0 2px 18px rgba(0,0,0,.55); display:block; }
+        .hero-campaign-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.6rem,3vw,2.6rem); font-weight:700; color:#f5e6c8; letter-spacing:.12em; text-shadow:0 2px 18px rgba(0,0,0,.55); display:block; }
         /* Bottom bar — same height as nav (56px), ivory, text centered */
         .hero-bottom-bar { height:96px; background:#FAF8F3; border-top:1px solid #d4e0da; flex-shrink:0; }
 
@@ -128,8 +128,8 @@
         /* FOOTER */
         .footer-top { display:flex; align-items:center; justify-content:space-between; padding:1.6rem 2.8rem 1.2rem; border-bottom:1px solid rgba(31,47,40,.1); }
         .footer-brand-block { display:flex; flex-direction:column; gap:.3rem; }
-        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; color:#1F2F28; letter-spacing:.15em; text-transform:none; }
-        .footer-brand-tagline { font-family:'Cormorant Garamond',serif; font-size:.8rem; color:#c8a96e; letter-spacing:.1em; font-style:italic; font-weight:500; }
+        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#2c5f3a; letter-spacing:.15em; text-transform:none; }
+        .footer-brand-tagline { font-family:'Cormorant Garamond',serif; font-size:.95rem; color:#c8a96e; letter-spacing:.1em; font-style:italic; font-weight:500; }
         .footer-socials { display:flex; align-items:center; gap:1.4rem; }
         .footer-socials a { color:#4a6258; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:color .22s; }
         .footer-socials a:hover { color:#1F2F28; }
@@ -325,7 +325,7 @@
         /* PRODUCT DETAIL PAGE (new tab) */
         .product-page { display:none; position:fixed; inset:0; background:var(--body-bg); z-index:4000; overflow-y:auto; }
         .product-page.active { display:block; }
-        .pp-header { position:sticky; top:0; background:#FAF8F3; border-bottom:1px solid #d4e0da; box-shadow:0 1px 8px rgba(31,47,40,.05); padding:.8rem 2.8rem; display:flex; align-items:center; justify-content:space-between; z-index:10; }
+        .pp-header { position:sticky; top:0; background:#FAF8F3; border-bottom:1px solid #d4e0da; box-shadow:0 1px 8px rgba(31,47,40,.05); padding:.7rem .8rem; display:flex; align-items:center; justify-content:space-between; z-index:10; }
         .pp-back { color:#1F2F28; background:none; border:none; cursor:pointer; font-family:'Jost',sans-serif; font-size:.82rem; letter-spacing:.14em; text-transform:uppercase; display:flex; align-items:center; gap:.5rem; transition:opacity .2s; }
         .pp-back:hover { opacity:.7; }
         .pp-logo-small { font-family:'Cormorant Garamond',serif; font-size:1.1rem; letter-spacing:.2em; color:#1F2F28; text-transform:uppercase; }
@@ -335,13 +335,13 @@
         .pp-gallery { height:fit-content; position:relative; }
         .pp-gallery-inner { position:relative; height:620px; overflow:hidden; background:#f7f7f5; }
         .pp-zoom-frame { width:100%; height:100%; transition:transform .4s cubic-bezier(.25,.46,.45,.94); transform-origin:center center; }
-        .pp-gallery .slider-wrapper { height:100%; border-radius:0; overflow:visible; background:transparent; position:relative; }
-        .pp-gallery .slider-track img { min-height:620px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
+        .pp-gallery .slider-wrapper { height:280px; border-radius:0; overflow:visible; background:transparent; position:relative; }
+        .pp-gallery .slider-track img { min-height:280px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
         /* Controls pinned to bottom of gallery-inner — never moves */
         .pp-zoom-controls { position:absolute; bottom:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:center; gap:.8rem; padding:.65rem 1rem; background:rgba(250,248,243,.92); border-top:1px solid #d4e0da; backdrop-filter:blur(4px); }
         .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; }
         .pp-category { font-size:.64rem; color:var(--gold); letter-spacing:.25em; text-transform:uppercase; font-weight:500; margin-bottom:.6rem; }
-        .pp-name { font-family:'Cormorant Garamond',serif; font-size:2.6rem; font-weight:300; color:var(--text-dark); line-height:1.15; margin-bottom:.6rem; letter-spacing:.01em; }
+        .pp-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--text-dark); line-height:1.15; margin-bottom:.6rem; letter-spacing:.01em; }
         .pp-price { font-size:1.6rem; font-weight:400; color:var(--text-dark); margin-bottom:1.2rem; letter-spacing:.02em; }
         .pp-delivery { font-size:.75rem; color:#2e7d32; background:#f0f9f0; border:1px solid #b8ddb8; padding:.6rem 1.2rem; display:flex; gap:2rem; margin-bottom:1.8rem; letter-spacing:.05em; }
         .pp-desc { font-size:.88rem; color:var(--text-mid); line-height:2; margin-bottom:2rem; padding-bottom:1.8rem; border-bottom:1px solid var(--card-border); font-weight:300; }
@@ -363,7 +363,7 @@
         .pp-zoom-btn:hover { border-color:var(--gold); color:var(--gold); }
         .pp-zoom-btn:disabled { opacity:.35; cursor:not-allowed; }
         .pp-zoom-level { font-size:.75rem; color:var(--text-dark); letter-spacing:.06em; min-width:38px; text-align:center; font-weight:500; }
-        @media(max-width:768px) { .pp-body{grid-template-columns:1fr;gap:2rem;padding:1.5rem 1.2rem} .pp-gallery{position:static} .pp-gallery .slider-wrapper{height:380px} .pp-gallery .slider-track img{min-height:380px} .pp-name{font-size:2rem} .pp-header{padding:1rem 1.2rem} }
+        @media(max-width:768px) { .pp-body{grid-template-columns:1fr;gap:1.2rem;padding:1rem .8rem} .pp-gallery{position:static} .pp-gallery .slider-wrapper{height:380px} .pp-gallery .slider-track img{min-height:380px} .pp-name{font-size:2rem} .pp-header{padding:1rem 1.2rem} }
 
         /* SIZE GUIDE MODAL */
         .size-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:6000; justify-content:center; align-items:center; backdrop-filter:blur(6px); }
@@ -456,7 +456,7 @@
             <!-- SVG logo top-left of photo -->
             <div class="hero-logo-topleft">
                 <div class="logo-circle">
-                    <img src="assets/logo/Ashvatthas.svg" alt="Ashvatthas" style="width:72px;height:72px;object-fit:contain;">
+                    <img src="assets/logo/Ashvatthas.svg" alt="Ashvatthas" style="width:100px;height:100px;object-fit:contain;">
                 </div>
             </div>
             <!-- Campaign text on image -->
