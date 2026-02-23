@@ -996,7 +996,7 @@
                 if (!isImageTarget(e.target)) return;
                 e.preventDefault();
                 ppPanX = 0; ppPanY = 0;
-                ppZoomLevel = ppZoomLevel < ppZoomLevels.length - 1 ? ppZoomLevel + 1 : 0;
+                ppZoomLevel = ppZoomLevel === 0 ? 1 : 0;
                 _ppRender(true);
             });
 
