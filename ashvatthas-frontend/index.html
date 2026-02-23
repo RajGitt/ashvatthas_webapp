@@ -48,7 +48,7 @@
         .logo { display:flex; flex-direction:column; align-items:flex-start; text-decoration:none; line-height:1; gap:.1rem; }
         .logo-icon { display:none; }
         .logo-text-block { display:flex; flex-direction:column; gap:.05rem; }
-        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#2c5f3a; letter-spacing:.22em; text-transform:none; line-height:1; }
+        .logo-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; color:#1a4025; letter-spacing:.22em; text-transform:none; line-height:1; }
         .logo-slogan { font-family:'Cormorant Garamond',serif; font-size:.92rem; font-weight:500; color:#c8a96e; letter-spacing:.1em; font-style:italic; line-height:1; text-transform:none; }
 
         .nav-links { display:flex; gap:2.8rem; list-style:none; align-items:center; }
@@ -128,7 +128,7 @@
         /* FOOTER */
         .footer-top { display:flex; align-items:center; justify-content:space-between; padding:1.6rem 2.8rem 1.2rem; border-bottom:1px solid rgba(31,47,40,.1); }
         .footer-brand-block { display:flex; flex-direction:column; gap:.3rem; }
-        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#2c5f3a; letter-spacing:.15em; text-transform:none; }
+        .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#1a4025; letter-spacing:.15em; text-transform:none; }
         .footer-brand-tagline { font-family:'Cormorant Garamond',serif; font-size:.95rem; color:#c8a96e; letter-spacing:.1em; font-style:italic; font-weight:500; }
         .footer-socials { display:flex; align-items:center; gap:1.4rem; }
         .footer-socials a { color:#4a6258; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:color .22s; }
@@ -253,7 +253,7 @@
             nav { padding:.85rem 1.2rem; }
             .nav-links { display:none; }
             .logo-name { font-size:1rem; }
-            .logo-slogan { font-size:.52rem; }
+            .logo-slogan { font-size:.6rem; font-weight:700 !important; }
             .nav-icon svg { width:22px; height:22px; }
 
             /* Hamburger menu */
@@ -265,10 +265,13 @@
             .mobile-menu a { font-family:'Cormorant Garamond',serif; font-size:2rem; color:#1F2F28; text-decoration:none; letter-spacing:.1em; }
             .mobile-menu-close { position:absolute; top:1.5rem; right:1.5rem; font-size:1.8rem; cursor:pointer; color:#1F2F28; background:none; border:none; }
 
+            /* NAV white on mobile */
+            nav { background:#ffffff !important; }
+
             /* HERO */
             .hero { min-height:85vh; }
             .hero-bottom-bar { height:48px; }
-            .hero-campaign-title { font-size:.7rem !important; letter-spacing:.18em; }
+            .hero-campaign-title { font-size:1.3rem !important; letter-spacing:.1em; color:#ffffff !important; font-weight:700 !important; }
             .hero-logo-topleft { top:1rem !important; left:1rem !important; }
             .logo-circle { width:90px !important; height:90px !important; }
             .logo-circle img { width:68px !important; height:68px !important; }
@@ -305,10 +308,17 @@
             .cart-item-price { align-self:flex-start; }
 
             /* PRODUCT PAGE */
-            .pp-header { padding:.8rem 1rem; }
+            .pp-header { padding:.7rem .8rem; }
+            .pp-body { grid-template-columns:1fr !important; gap:0 !important; padding:.8rem !important; }
+            .pp-zoom-wrapper { position:static !important; }
+            .pp-gallery-inner { height:300px !important; }
+            .pp-gallery .slider-wrapper { height:300px !important; }
+            .pp-gallery .slider-track img { min-height:300px !important; object-fit:cover; }
+            .pp-zoom-controls { display:none !important; }
+            .pp-name { font-size:1.4rem !important; }
+            .pp-info { padding:.8rem 0 !important; }
             .pp-layout { flex-direction:column !important; }
             .pp-images { width:100% !important; }
-            .pp-info { width:100% !important; padding:1.2rem !important; }
 
             /* CHECKOUT */
             .checkout-modal .modal-content { width:98%; padding:1.4rem 1rem; }
@@ -320,6 +330,10 @@
         @media(max-width:380px) {
             .products-grid { grid-template-columns:1fr; }
             .hero { min-height:75vh; }
+            .hero-campaign-title { font-size:1.1rem !important; }
+            .pp-gallery-inner { height:240px !important; }
+            .pp-gallery .slider-wrapper { height:240px !important; }
+            .pp-gallery .slider-track img { min-height:240px !important; }
         }
 
         /* PRODUCT DETAIL PAGE (new tab) */
@@ -333,13 +347,13 @@
         .pp-zoom-wrapper { position:sticky; top:58px; height:fit-content; z-index:5; }
         /* gallery is the clipping container — controls float on top of it */
         .pp-gallery { height:fit-content; position:relative; }
-        .pp-gallery-inner { position:relative; height:620px; overflow:hidden; background:#f7f7f5; }
+        .pp-gallery-inner { position:relative; height:580px; overflow:hidden; background:#f7f7f5; border-radius:4px; }
         .pp-zoom-frame { width:100%; height:100%; transition:transform .4s cubic-bezier(.25,.46,.45,.94); transform-origin:center center; }
-        .pp-gallery .slider-wrapper { height:280px; border-radius:0; overflow:visible; background:transparent; position:relative; }
-        .pp-gallery .slider-track img { min-height:280px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
+        .pp-gallery .slider-wrapper { height:580px; border-radius:0; overflow:visible; background:transparent; position:relative; }
+        .pp-gallery .slider-track img { min-height:580px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
         /* Controls pinned to bottom of gallery-inner — never moves */
         .pp-zoom-controls { position:absolute; bottom:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:center; gap:.8rem; padding:.65rem 1rem; background:rgba(250,248,243,.92); border-top:1px solid #d4e0da; backdrop-filter:blur(4px); }
-        .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; }
+        .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; padding-left:1rem; }
         .pp-category { font-size:.64rem; color:var(--gold); letter-spacing:.25em; text-transform:uppercase; font-weight:500; margin-bottom:.6rem; }
         .pp-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--text-dark); line-height:1.15; margin-bottom:.6rem; letter-spacing:.01em; }
         .pp-price { font-size:1.6rem; font-weight:400; color:var(--text-dark); margin-bottom:1.2rem; letter-spacing:.02em; }
@@ -816,11 +830,12 @@
                                 ${buildSlider(pid, slides, false, sliderId)}
                             </div>
                             <!-- Controls sit INSIDE the clipping container, pinned to bottom, always visible -->
-                            <div class="pp-zoom-controls">
+                            <div class="pp-zoom-controls" id="ppZoomControls">
                                 <button class="pp-zoom-btn" id="ppZoomOut" onclick="ppZoom(-1)" title="Zoom out" disabled>&#8722;</button>
                                 <span class="pp-zoom-level" id="ppZoomLabel">1×</span>
                                 <button class="pp-zoom-btn" id="ppZoomIn" onclick="ppZoom(1)" title="Zoom in">+</button>
                             </div>
+                            <div style="position:absolute;bottom:50px;left:50%;transform:translateX(-50%);font-size:.65rem;color:#999;letter-spacing:.08em;white-space:nowrap;pointer-events:none;" id="ppDblHint">Double-tap image to zoom</div>
                         </div>
                     </div>
                 </div>
@@ -866,6 +881,29 @@
             page.scrollTop = 0;
             ppZoomLevel = 0;
             _applyPPZoom();
+
+            // Double-click/tap to zoom toggle
+            setTimeout(() => {
+                const galleryInner = document.querySelector('.pp-gallery-inner');
+                const hint = document.getElementById('ppDblHint');
+                if (galleryInner) {
+                    galleryInner.addEventListener('dblclick', function() {
+                        if (ppZoomLevel === 0) {
+                            ppZoomLevel = 2; // jump to 2x
+                        } else {
+                            ppZoomLevel = 0; // back to 1x
+                        }
+                        _applyPPZoom();
+                    });
+                }
+                // Hide hint after 3 seconds
+                if (hint) setTimeout(() => { hint.style.opacity='0'; hint.style.transition='opacity 1s'; }, 3000);
+                // On mobile, hide zoom buttons and show double-tap
+                if (window.innerWidth <= 768) {
+                    const controls = document.getElementById('ppZoomControls');
+                    if (controls) controls.style.display = 'none';
+                }
+            }, 100);
             history.pushState({ productPage: pid }, '', '#product-' + pid);
         }
 
