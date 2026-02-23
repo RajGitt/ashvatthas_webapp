@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import timedelta
-
+from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
 from app.models.cart import Cart
