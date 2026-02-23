@@ -119,3 +119,65 @@ async def get_current_user(
         raise credentials_exception
     
     return user
+    
+    
+import random, string
+from datetime import datetime, timedelta
+
+# Store reset codes temporarily (in production use Redis, fine for now)
+reset_codes = {}
+
+@router.post("/forgot-password")
+async def forgot_password(data: dict, db: Session = Depends(get_db)):
+    email = data.get("email")
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="No account found with this email")
+    
+    # Generate 6-digit code
+    code = ''.join(random.choices(string.digits, k=6))
+    reset_codes[email] = {"code": code, "expires": datetime.utcnow() + timedelta(minutes=15)}
+    
+    # Send email
+    from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+    conf = ConnectionConfig(
+        MAIL_USERNAME=settings.MAIL_USERNAME,
+        MAIL_PASSWORD=settings.MAIL_PASSWORD,
+        MAIL_FROM=settings.MAIL_FROM,
+        MAIL_PORT=settings.MAIL_PORT,
+        MAIL_SERVER=settings.MAIL_SERVER,
+        MAIL_STARTTLS=True,
+        MAIL_SSL_TLS=False,
+    )
+    message = MessageSchema(
+        subject="Ashvatthas — Password Reset Code",
+        recipients=[email],
+        body=f"Your password reset code is: {code}\n\nThis code expires in 15 minutes.\n\nIf you did not request this, ignore this email.",
+        subtype="plain"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)
+    return {"message": "Reset code sent"}
+
+@router.post("/reset-password")
+async def reset_password(data: dict, db: Session = Depends(get_db)):
+    email = data.get("email")
+    code  = data.get("code")
+    new_password = data.get("new_password")
+    
+    entry = reset_codes.get(email)
+    if not entry or entry["code"] != code:
+        raise HTTPException(status_code=400, detail="Invalid or expired code")
+    if datetime.utcnow() > entry["expires"]:
+        del reset_codes[email]
+        raise HTTPException(status_code=400, detail="Code has expired — request a new one")
+    
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    from app.core.security import get_password_hash
+    user.hashed_password = get_password_hash(new_password)
+    db.commit()
+    del reset_codes[email]
+    return {"message": "Password reset successfully"}
