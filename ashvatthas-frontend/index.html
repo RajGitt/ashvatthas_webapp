@@ -308,15 +308,17 @@
 
             /* PRODUCT PAGE MOBILE */
             .pp-header { padding:.9rem 1rem; }
-            .pp-body { grid-template-columns:1fr !important; gap:0 !important; padding:.8rem .9rem 2rem !important; }
+            .pp-body { grid-template-columns:1fr !important; gap:0 !important; padding:.6rem .8rem 2rem !important; }
             .pp-zoom-wrapper { position:static !important; top:auto !important; }
-            .pp-gallery-inner { height:320px !important; }
-            .pp-gallery .slider-wrapper { height:320px !important; }
-            .pp-gallery .slider-track img { min-height:320px !important; object-fit:cover !important; }
-            .pp-zoom-controls { display:none !important; }
-            .pp-name { font-size:1.5rem !important; margin-top:.5rem; }
-            .pp-price { font-size:1.3rem !important; }
-            .pp-info { padding:.8rem 0 !important; }
+            .pp-gallery-inner { height:340px !important; }
+            .pp-gallery .slider-wrapper { height:340px !important; }
+            .pp-gallery .slider-track img { min-height:340px !important; object-fit:cover !important; }
+            .pp-zoom-bar { padding:.4rem .6rem; }
+            .pp-zoom-btn { height:28px; padding:0 .6rem; font-size:.65rem; }
+            .pp-zoom-tip { display:none; }
+            .pp-name { font-size:1.4rem !important; margin-top:.5rem; }
+            .pp-price { font-size:1.25rem !important; }
+            .pp-info { padding:.6rem 0 !important; }
             .pp-layout { flex-direction:column !important; }
             .pp-images { width:100% !important; }
 
@@ -348,7 +350,8 @@
         .pp-gallery .slider-wrapper { height:280px; border-radius:0; overflow:visible; background:transparent; position:relative; }
         .pp-gallery .slider-track img { min-height:280px; cursor:crosshair; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
         /* Controls pinned to bottom of gallery-inner — never moves */
-        .pp-zoom-controls { position:absolute; bottom:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:center; gap:.8rem; padding:.65rem 1rem; background:rgba(250,248,243,.92); border-top:1px solid #d4e0da; backdrop-filter:blur(4px); }
+        .pp-zoom-bar { display:flex; align-items:center; gap:.6rem; padding:.55rem 1rem; background:#fff; border:1px solid #d4e0da; border-bottom:none; border-radius:3px 3px 0 0; }
+        .pp-zoom-tip { font-size:.65rem; color:#aaa; letter-spacing:.06em; margin-left:auto; user-select:none; }
         .pp-info { padding-top:0; display:flex; flex-direction:column; gap:0; }
         .pp-category { font-size:.64rem; color:var(--gold); letter-spacing:.25em; text-transform:uppercase; font-weight:500; margin-bottom:.6rem; }
         .pp-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--text-dark); line-height:1.15; margin-bottom:.6rem; letter-spacing:.01em; }
@@ -369,7 +372,7 @@
         .pp-notes-title { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--text-dark); display:block; margin-bottom:.5rem; letter-spacing:.04em; font-weight:500; }
         .pp-notes li { margin-bottom:.2rem; list-style:none; padding-left:1.2rem; position:relative; }
         .pp-notes li::before { content:'✦'; position:absolute; left:0; color:var(--gold); font-size:.55rem; top:.35em; }
-        .pp-zoom-btn { width:36px; height:36px; border:1.5px solid #d4e0da; background:#fff; color:var(--text-dark); font-size:1.15rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; border-radius:3px; font-weight:500; line-height:1; user-select:none; }
+        .pp-zoom-btn { height:32px; padding:0 .9rem; border:1.5px solid #d4e0da; background:#fff; color:var(--text-dark); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; display:flex; align-items:center; gap:.4rem; justify-content:center; transition:all .2s; border-radius:3px; font-weight:500; user-select:none; font-family:'Jost',sans-serif; }
         .pp-zoom-btn:hover { border-color:var(--gold); color:var(--gold); }
         .pp-zoom-btn:disabled { opacity:.35; cursor:not-allowed; }
         .pp-zoom-level { font-size:.75rem; color:var(--text-dark); letter-spacing:.06em; min-width:38px; text-align:center; font-weight:500; }
@@ -821,15 +824,21 @@
             document.getElementById('ppBody').innerHTML = `
                 <div class="pp-zoom-wrapper">
                     <div class="pp-gallery" id="ppGallery">
-                        <div class="pp-gallery-inner">
+                        <div class="pp-zoom-bar">
+                            <button class="pp-zoom-btn" id="ppZoomOut" onclick="ppZoom(-1)" title="Zoom out" disabled>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                Zoom out
+                            </button>
+                            <span class="pp-zoom-level" id="ppZoomLabel">1&times;</span>
+                            <button class="pp-zoom-btn" id="ppZoomIn" onclick="ppZoom(1)" title="Zoom in">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                                Zoom in
+                            </button>
+                            <span class="pp-zoom-tip">Drag to pan when zoomed</span>
+                        </div>
+                        <div class="pp-gallery-inner" id="ppGalleryInner">
                             <div class="pp-zoom-frame" id="ppZoomFrame">
                                 ${buildSlider(pid, slides, false, sliderId)}
-                            </div>
-                            <!-- Controls sit INSIDE the clipping container, pinned to bottom, always visible -->
-                            <div class="pp-zoom-controls">
-                                <button class="pp-zoom-btn" id="ppZoomOut" onclick="ppZoom(-1)" title="Zoom out" disabled>&#8722;</button>
-                                <span class="pp-zoom-level" id="ppZoomLabel">1×</span>
-                                <button class="pp-zoom-btn" id="ppZoomIn" onclick="ppZoom(1)" title="Zoom in">+</button>
                             </div>
                         </div>
                     </div>
@@ -876,8 +885,7 @@
             page.scrollTop = 0;
             ppZoomLevel = 0;
             ppPanX = 0; ppPanY = 0;
-            _applyPPZoom();
-            setTimeout(_setupPPPan, 100);
+            setTimeout(_setupPPPan, 80);
             history.pushState({ productPage: pid }, '', '#product-' + pid);
         }
 
@@ -886,140 +894,146 @@
             if (history.state && history.state.productPage) history.back();
         }
 
-        // Prevent native image drag inside the product gallery at all times
+        // Prevent native image drag in gallery
         document.addEventListener('dragstart', function(e) {
-            if (e.target.tagName === 'IMG' && e.target.closest('.pp-gallery-inner')) {
-                e.preventDefault();
-            }
+            if (e.target.closest('#ppGalleryInner')) e.preventDefault();
         });
 
+        // ── PRODUCT IMAGE ZOOM & PAN ─────────────────────────────────────
         let ppZoomLevel = 0;
-        // 5 zoom steps: 1× → 1.5× → 2× → 3× → 4× → 5×
-        const ppZoomLevels = [1, 1.5, 2, 3, 4, 5];
+        const ppZoomLevels = [1, 1.5, 2, 3];
+        let ppPanX = 0, ppPanY = 0;
 
-        function ppZoom(dir) {
-            ppZoomLevel = Math.max(0, Math.min(ppZoomLevels.length - 1, ppZoomLevel + dir));
-            _applyPPZoom();
+        // Clamp pan so image never reveals grey beyond its edges
+        function _ppClamp(scale) {
+            const inner = document.getElementById('ppGalleryInner');
+            const frame = document.getElementById('ppZoomFrame');
+            if (!inner || !frame) return;
+            // At scale S, the frame appears S× larger than the container.
+            // Max pan in each axis = half the overflow / scale
+            const maxX = inner.offsetWidth  * (scale - 1) / 2 / scale;
+            const maxY = inner.offsetHeight * (scale - 1) / 2 / scale;
+            ppPanX = Math.max(-maxX, Math.min(maxX, ppPanX));
+            ppPanY = Math.max(-maxY, Math.min(maxY, ppPanY));
         }
 
-        // Pan state for zoomed image
-        let ppPanX = 0, ppPanY = 0;
-        let ppPanning = false, ppPanStartX = 0, ppPanStartY = 0, ppPanOriginX = 0, ppPanOriginY = 0;
-
-        function _applyPPZoom(originX, originY) {
-            const scale = ppZoomLevels[ppZoomLevel];
+        function _ppRender(transition) {
             const frame = document.getElementById('ppZoomFrame');
-            if (frame) {
-                if (scale === 1) {
-                    ppPanX = 0; ppPanY = 0;
-                    frame.style.transform = '';
-                    frame.style.transformOrigin = 'center center';
-                    frame.style.cursor = 'crosshair';
-                } else {
-                    // Zoom into click origin point
-                    const ox = originX !== undefined ? originX + '%' : '50%';
-                    const oy = originY !== undefined ? originY + '%' : '50%';
-                    frame.style.transformOrigin = ox + ' ' + oy;
-                    frame.style.transform = `scale(${scale}) translate(${ppPanX}px, ${ppPanY}px)`;
-                    frame.style.cursor = 'grab';
-                }
-                frame.style.pointerEvents = 'auto';
-                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
-            }
+            if (!frame) return;
+            const scale = ppZoomLevels[ppZoomLevel];
+            frame.style.transition = transition ? 'transform .28s ease' : 'none';
+            frame.style.transformOrigin = 'center center';
+            frame.style.transform = scale === 1 ? '' : `scale(${scale}) translate(${ppPanX}px,${ppPanY}px)`;
+            frame.style.cursor = scale === 1 ? 'zoom-in' : 'grab';
             const label = document.getElementById('ppZoomLabel');
             if (label) label.textContent = scale + '×';
-            const zoomIn = document.getElementById('ppZoomIn');
-            const zoomOut = document.getElementById('ppZoomOut');
-            if (zoomIn) zoomIn.disabled = ppZoomLevel >= ppZoomLevels.length - 1;
-            if (zoomOut) zoomOut.disabled = ppZoomLevel <= 0;
+            const zIn  = document.getElementById('ppZoomIn');
+            const zOut = document.getElementById('ppZoomOut');
+            if (zIn)  zIn.disabled  = ppZoomLevel >= ppZoomLevels.length - 1;
+            if (zOut) zOut.disabled = ppZoomLevel <= 0;
         }
 
+        // Button-triggered zoom (always resets pan)
+        function ppZoom(dir) {
+            ppZoomLevel = Math.max(0, Math.min(ppZoomLevels.length - 1, ppZoomLevel + dir));
+            ppPanX = 0; ppPanY = 0;
+            _ppRender(true);
+        }
+
+        // Called once after product page opens
         function _setupPPPan() {
-            const inner = document.querySelector('.pp-gallery-inner');
+            const inner = document.getElementById('ppGalleryInner');
             const frame = document.getElementById('ppZoomFrame');
             if (!inner || !frame) return;
 
-            // Click to zoom at position
-            inner.addEventListener('click', function(e) {
-                if (ppPanning) return;
-                const rect = inner.getBoundingClientRect();
-                const ox = ((e.clientX - rect.left) / rect.width) * 100;
-                const oy = ((e.clientY - rect.top) / rect.height) * 100;
-                if (ppZoomLevel === 0) {
-                    ppZoomLevel = 2; // zoom to 2x on click
-                    _applyPPZoom(ox, oy);
-                } else if (ppZoomLevel >= ppZoomLevels.length - 1) {
-                    ppZoomLevel = 0;
-                    _applyPPZoom();
-                } else {
-                    ppZoomLevel++;
-                    _applyPPZoom(ox, oy);
-                }
-            });
+            _ppRender(false); // set initial cursor
 
-            // Mouse pan
+            // ── MOUSE ──────────────────────────────────────────────────
+            let mouseDown = false, mouseMoved = false, msX = 0, msY = 0;
+
             inner.addEventListener('mousedown', function(e) {
-                if (ppZoomLevel === 0) return;
-                ppPanning = false;
-                ppPanStartX = e.clientX - ppPanX;
-                ppPanStartY = e.clientY - ppPanY;
-                frame.style.cursor = 'grabbing';
+                // Only respond to clicks INSIDE the gallery image area
+                if (!inner.contains(e.target)) return;
+                mouseDown = true; mouseMoved = false;
+                msX = e.clientX - ppPanX * ppZoomLevels[ppZoomLevel];
+                msY = e.clientY - ppPanY * ppZoomLevels[ppZoomLevel];
+                if (ppZoomLevel > 0) frame.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+
+            window.addEventListener('mousemove', function(e) {
+                if (!mouseDown || ppZoomLevel === 0) return;
+                mouseMoved = true;
+                const scale = ppZoomLevels[ppZoomLevel];
+                ppPanX = (e.clientX - msX) / scale;
+                ppPanY = (e.clientY - msY) / scale;
+                _ppClamp(scale);
                 frame.style.transition = 'none';
-                inner.addEventListener('mousemove', onMouseMove);
-                inner.addEventListener('mouseup', onMouseUp);
-                inner.addEventListener('mouseleave', onMouseUp);
+                frame.style.transform = `scale(${scale}) translate(${ppPanX}px,${ppPanY}px)`;
             });
 
-            function onMouseMove(e) {
-                ppPanning = true;
-                ppPanX = e.clientX - ppPanStartX;
-                ppPanY = e.clientY - ppPanStartY;
-                frame.style.transform = `scale(${ppZoomLevels[ppZoomLevel]}) translate(${ppPanX}px, ${ppPanY}px)`;
-            }
-            function onMouseUp() {
-                frame.style.cursor = 'grab';
-                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
-                inner.removeEventListener('mousemove', onMouseMove);
-                inner.removeEventListener('mouseup', onMouseUp);
-                inner.removeEventListener('mouseleave', onMouseUp);
-                setTimeout(() => { ppPanning = false; }, 50);
-            }
-
-            // Touch pan
-            let touchStart = null;
-            inner.addEventListener('touchstart', function(e) {
-                if (e.touches.length === 1 && ppZoomLevel > 0) {
-                    touchStart = { x: e.touches[0].clientX - ppPanX, y: e.touches[0].clientY - ppPanY };
-                    frame.style.transition = 'none';
-                }
-            }, {passive:true});
-            inner.addEventListener('touchmove', function(e) {
-                if (touchStart && e.touches.length === 1 && ppZoomLevel > 0) {
-                    e.preventDefault();
-                    ppPanX = e.touches[0].clientX - touchStart.x;
-                    ppPanY = e.touches[0].clientY - touchStart.y;
-                    frame.style.transform = `scale(${ppZoomLevels[ppZoomLevel]}) translate(${ppPanX}px, ${ppPanY}px)`;
-                }
-            }, {passive:false});
-            inner.addEventListener('touchend', function() {
-                touchStart = null;
-                frame.style.transition = 'transform .3s cubic-bezier(.25,.46,.45,.94)';
-            });
-
-            // Double-tap to zoom in/out on mobile
-            let lastTap = 0;
-            inner.addEventListener('touchend', function(e) {
-                const now = Date.now();
-                if (now - lastTap < 300) {
-                    const touch = e.changedTouches[0];
-                    const rect = inner.getBoundingClientRect();
-                    const ox = ((touch.clientX - rect.left) / rect.width) * 100;
-                    const oy = ((touch.clientY - rect.top) / rect.height) * 100;
+            window.addEventListener('mouseup', function(e) {
+                if (!mouseDown) return;
+                mouseDown = false;
+                frame.style.cursor = ppZoomLevel > 0 ? 'grab' : 'zoom-in';
+                // Single click on image (no drag) = step zoom in
+                if (!mouseMoved && inner.contains(e.target)) {
                     ppPanX = 0; ppPanY = 0;
-                    ppZoomLevel = ppZoomLevel === 0 ? 2 : 0;
-                    _applyPPZoom(ox, oy);
+                    if (ppZoomLevel < ppZoomLevels.length - 1) ppZoomLevel++;
+                    else ppZoomLevel = 0;
+                    _ppRender(true);
                 }
+            });
+
+            // ── TOUCH ──────────────────────────────────────────────────
+            let touchDown = false, touchMoved = false, lastTap = 0;
+            let tsX = 0, tsY = 0;
+
+            inner.addEventListener('touchstart', function(e) {
+                if (!inner.contains(e.target)) return;
+                if (e.touches.length !== 1) return;
+                touchDown = true; touchMoved = false;
+                const scale = ppZoomLevels[ppZoomLevel];
+                tsX = e.touches[0].clientX - ppPanX * scale;
+                tsY = e.touches[0].clientY - ppPanY * scale;
+                frame.style.transition = 'none';
+            }, {passive:true});
+
+            inner.addEventListener('touchmove', function(e) {
+                if (!touchDown || ppZoomLevel === 0) return;
+                if (!inner.contains(e.target)) return;
+                e.preventDefault();
+                touchMoved = true;
+                const scale = ppZoomLevels[ppZoomLevel];
+                ppPanX = (e.touches[0].clientX - tsX) / scale;
+                ppPanY = (e.touches[0].clientY - tsY) / scale;
+                _ppClamp(scale);
+                frame.style.transform = `scale(${scale}) translate(${ppPanX}px,${ppPanY}px)`;
+            }, {passive:false});
+
+            inner.addEventListener('touchend', function(e) {
+                if (!touchDown) return;
+                touchDown = false;
+                frame.style.transition = 'transform .28s ease';
+                if (!inner.contains(e.target)) return;
+
+                const now = Date.now();
+                const doubleTap = (now - lastTap) < 280;
                 lastTap = now;
+
+                if (!touchMoved) {
+                    const touch = e.changedTouches[0];
+                    ppPanX = 0; ppPanY = 0;
+                    if (doubleTap) {
+                        // Double-tap: toggle between 1× and 2×
+                        ppZoomLevel = ppZoomLevel === 0 ? 2 : 0;
+                    } else {
+                        // Single tap: step up, wrap back to 1
+                        if (ppZoomLevel < ppZoomLevels.length - 1) ppZoomLevel++;
+                        else ppZoomLevel = 0;
+                    }
+                    _ppRender(true);
+                }
             });
         }
 
