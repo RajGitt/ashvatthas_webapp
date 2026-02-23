@@ -349,7 +349,7 @@
         .pp-zoom-frame { width:100%; height:100%; transition:transform .28s ease; transform-origin:center center; will-change:transform; }
         .pp-gallery .slider-wrapper { height:580px; border-radius:0; overflow:hidden; background:transparent; position:relative; }
         .pp-gallery .slider-track { height:100%; }
-        .pp-gallery .slider-track img { height:580px; min-height:580px; width:100%; cursor:zoom-in; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; }
+        .pp-gallery .slider-track img { height:580px; min-height:580px; width:100%; cursor:default; object-fit:cover; display:block; -webkit-user-drag:none; user-select:none; image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges; }
         /* Controls pinned to bottom of gallery-inner — never moves */
         .pp-zoom-bar { display:flex; align-items:center; gap:.8rem; padding:.6rem 1rem; background:#faf8f3; border:1px solid #d4e0da; border-bottom:2px solid #1F2F28; }
         .pp-zoom-tip { font-size:.65rem; color:#aaa; letter-spacing:.06em; margin-left:auto; user-select:none; }
@@ -901,17 +901,20 @@
         });
 
         // ── PRODUCT IMAGE ZOOM & PAN ─────────────────────────────────────
-        // ── PRODUCT IMAGE ZOOM & PAN — FINAL ────────────────────────────
+        // ── PRODUCT IMAGE ZOOM & PAN — DEFINITIVE ───────────────────────
+        // Rules:
+        //   Desktop : double-click image → zoom in; drag → pan; buttons → zoom
+        //   Mobile  : double-tap image  → zoom in; drag → pan; buttons → zoom
+        //   Single click/tap on image = NOTHING (pan only when already zoomed)
+        //   Buttons never trigger image zoom logic
+
         let ppZoomLevel = 0;
-        const ppZoomLevels = [1, 1.5, 2.5];   // 3 clean steps
+        const ppZoomLevels = [1, 2, 3];   // 1× 2× 3×
         let ppPanX = 0, ppPanY = 0;
 
-        // Clamp pan: image edge never goes past container edge
         function _ppClamp(scale) {
             const inner = document.getElementById('ppGalleryInner');
             if (!inner) return;
-            // overflow at each axis = containerSize * (scale - 1)
-            // max translate (before scale multiplication) = overflow / 2 / scale
             const maxX = inner.offsetWidth  * (scale - 1) / (2 * scale);
             const maxY = inner.offsetHeight * (scale - 1) / (2 * scale);
             ppPanX = Math.max(-maxX, Math.min(maxX, ppPanX));
@@ -922,22 +925,19 @@
             const frame = document.getElementById('ppZoomFrame');
             if (!frame) return;
             const scale = ppZoomLevels[ppZoomLevel];
-            frame.style.transition = animated ? 'transform .28s cubic-bezier(.4,0,.2,1)' : 'none';
+            frame.style.transition = animated ? 'transform .3s cubic-bezier(.4,0,.2,1)' : 'none';
             frame.style.transformOrigin = 'center center';
             frame.style.transform = scale === 1 ? '' : `scale(${scale}) translate(${ppPanX}px,${ppPanY}px)`;
-            // Update cursor
-            frame.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
-            // Update label
+            frame.style.cursor = scale > 1 ? 'grab' : 'default';
             const label = document.getElementById('ppZoomLabel');
             if (label) label.textContent = scale + '×';
-            // Update buttons
-            const zIn = document.getElementById('ppZoomIn');
+            const zIn  = document.getElementById('ppZoomIn');
             const zOut = document.getElementById('ppZoomOut');
             if (zIn)  zIn.disabled  = ppZoomLevel >= ppZoomLevels.length - 1;
             if (zOut) zOut.disabled = ppZoomLevel <= 0;
         }
 
-        // Called by zoom +/- buttons
+        // Zoom buttons only
         function ppZoom(dir) {
             ppZoomLevel = Math.max(0, Math.min(ppZoomLevels.length - 1, ppZoomLevel + dir));
             ppPanX = 0; ppPanY = 0;
@@ -950,29 +950,32 @@
             if (!inner || !frame) return;
             _ppRender(false);
 
-            // Helper: is a point (clientX/Y) inside the image container bounds?
-            function insideInner(cx, cy) {
-                const r = inner.getBoundingClientRect();
-                return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
+            // Strict hit-test: only fire when e.target is the image itself
+            // (not zoom buttons, not labels, not the container border)
+            function isImageTarget(el) {
+                return el.tagName === 'IMG' && el.closest('#ppGalleryInner') !== null;
             }
 
-            // ── MOUSE (desktop) ────────────────────────────────────────
-            let mDown = false, mMoved = false, mStartX = 0, mStartY = 0;
+            // ── MOUSE (desktop) ─────────────────────────────────────────
+            // Double-click on image = zoom step
+            // Mousedown + mousemove = pan (only when zoomed)
+            let mDragging = false, mDragMoved = false, mStartX = 0, mStartY = 0;
+            let mLastClick = 0;
 
             inner.addEventListener('mousedown', function(e) {
-                if (e.button !== 0) return;          // left button only
-                mDown = true; mMoved = false;
+                if (e.button !== 0 || !isImageTarget(e.target)) return;
+                mDragging = true; mDragMoved = false;
                 const scale = ppZoomLevels[ppZoomLevel];
                 mStartX = e.clientX - ppPanX * scale;
                 mStartY = e.clientY - ppPanY * scale;
-                frame.style.cursor = scale > 1 ? 'grabbing' : 'zoom-in';
+                if (ppZoomLevel > 0) frame.style.cursor = 'grabbing';
                 frame.style.transition = 'none';
                 e.preventDefault();
             });
 
             window.addEventListener('mousemove', function(e) {
-                if (!mDown || ppZoomLevel === 0) return;
-                mMoved = true;
+                if (!mDragging || ppZoomLevel === 0) return;
+                mDragMoved = true;
                 const scale = ppZoomLevels[ppZoomLevel];
                 ppPanX = (e.clientX - mStartX) / scale;
                 ppPanY = (e.clientY - mStartY) / scale;
@@ -981,27 +984,31 @@
             });
 
             window.addEventListener('mouseup', function(e) {
-                if (!mDown) return;
-                const wasInside = insideInner(e.clientX, e.clientY);
-                mDown = false;
-                frame.style.transition = 'transform .28s cubic-bezier(.4,0,.2,1)';
-                frame.style.cursor = ppZoomLevels[ppZoomLevel] > 1 ? 'grab' : 'zoom-in';
-                // Click (not drag) inside image → step zoom
-                if (!mMoved && wasInside) {
-                    ppPanX = 0; ppPanY = 0;
-                    ppZoomLevel = ppZoomLevel < ppZoomLevels.length - 1 ? ppZoomLevel + 1 : 0;
-                    _ppRender(true);
-                }
+                if (!mDragging) return;
+                mDragging = false;
+                frame.style.cursor = ppZoomLevels[ppZoomLevel] > 1 ? 'grab' : 'default';
+                frame.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+                // Do NOT trigger zoom on mouseup — zoom is handled by dblclick below
             });
 
-            // ── TOUCH (mobile) ─────────────────────────────────────────
-            let tDown = false, tMoved = false, lastTap = 0;
-            let tStartX = 0, tStartY = 0;
+            // Double-click on image only → zoom step
+            inner.addEventListener('dblclick', function(e) {
+                if (!isImageTarget(e.target)) return;
+                e.preventDefault();
+                ppPanX = 0; ppPanY = 0;
+                ppZoomLevel = ppZoomLevel < ppZoomLevels.length - 1 ? ppZoomLevel + 1 : 0;
+                _ppRender(true);
+            });
+
+            // ── TOUCH (mobile) ──────────────────────────────────────────
+            // Double-tap on image = zoom toggle
+            // Single-tap + move = pan (only when zoomed)
+            let tDragging = false, tDragMoved = false;
+            let tStartX = 0, tStartY = 0, tLastTap = 0;
 
             inner.addEventListener('touchstart', function(e) {
-                if (e.touches.length !== 1) return;
-                if (!insideInner(e.touches[0].clientX, e.touches[0].clientY)) return;
-                tDown = true; tMoved = false;
+                if (e.touches.length !== 1 || !isImageTarget(e.target)) return;
+                tDragging = true; tDragMoved = false;
                 const scale = ppZoomLevels[ppZoomLevel];
                 tStartX = e.touches[0].clientX - ppPanX * scale;
                 tStartY = e.touches[0].clientY - ppPanY * scale;
@@ -1009,9 +1016,9 @@
             }, {passive: true});
 
             inner.addEventListener('touchmove', function(e) {
-                if (!tDown || ppZoomLevel === 0) return;
+                if (!tDragging || ppZoomLevel === 0) return;
                 e.preventDefault();
-                tMoved = true;
+                tDragMoved = true;
                 const scale = ppZoomLevels[ppZoomLevel];
                 ppPanX = (e.touches[0].clientX - tStartX) / scale;
                 ppPanY = (e.touches[0].clientY - tStartY) / scale;
@@ -1020,27 +1027,23 @@
             }, {passive: false});
 
             inner.addEventListener('touchend', function(e) {
-                if (!tDown) return;
-                tDown = false;
-                frame.style.transition = 'transform .28s cubic-bezier(.4,0,.2,1)';
-                if (tMoved) return;  // was a pan, not a tap
-
-                const t = e.changedTouches[0];
-                if (!insideInner(t.clientX, t.clientY)) return;  // tapped outside image
+                if (!tDragging) return;
+                tDragging = false;
+                frame.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+                if (tDragMoved) return;   // was a pan drag — no zoom
+                if (!isImageTarget(e.target)) return;  // not the image
 
                 const now = Date.now();
-                const isDouble = (now - lastTap) < 300;
-                lastTap = now;
-                ppPanX = 0; ppPanY = 0;
+                const isDoubleTap = (now - tLastTap) < 300;
+                tLastTap = now;
 
-                if (isDouble) {
-                    // Double-tap: toggle 1× ↔ 2.5×
-                    ppZoomLevel = ppZoomLevel === 0 ? 2 : 0;
-                } else {
-                    // Single tap: step up, wrap to 1×
-                    ppZoomLevel = ppZoomLevel < ppZoomLevels.length - 1 ? ppZoomLevel + 1 : 0;
+                if (isDoubleTap) {
+                    ppPanX = 0; ppPanY = 0;
+                    // Double-tap: toggle 1× ↔ 2×
+                    ppZoomLevel = ppZoomLevel === 0 ? 1 : 0;
+                    _ppRender(true);
                 }
-                _ppRender(true);
+                // Single tap = nothing (no zoom, no step)
             });
         }
 
