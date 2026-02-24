@@ -128,6 +128,7 @@
         /* FOOTER */
         .footer-top { display:flex; align-items:center; justify-content:space-between; padding:1.6rem 2.8rem 1.2rem; border-bottom:1px solid rgba(31,47,40,.1); }
         .footer-brand-block { display:flex; flex-direction:column; gap:.3rem; }
+        .footer-brand-img { height:48px; width:auto; object-fit:contain; margin:-8px 0; }
         .footer-brand-name { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:#2c5f3a; letter-spacing:.15em; text-transform:none; }
         .footer-brand-tagline { font-family:'Cormorant Garamond',serif; font-size:.95rem; color:#c8a96e; letter-spacing:.1em; font-style:italic; font-weight:500; }
         .footer-socials { display:flex; align-items:center; gap:1.4rem; }
@@ -252,6 +253,7 @@
             /* NAV — bigger on mobile */
             nav { padding:.85rem 1.2rem; height:60px; }
             .nav-links { display:none; }
+            .logo-text-img { height:38px; width:auto; object-fit:contain; object-position:center; margin:-6px 0; }
             .logo-name { font-size:1.2rem; }
             .logo-slogan { font-size:.65rem; font-weight:600 !important; }
             .nav-icon svg { width:26px; height:26px; }
@@ -426,8 +428,7 @@
     <nav id="mainNav">
         <a class="logo" href="#home">
             <div class="logo-text-block">
-                <span class="logo-name">Ashvatthas</span>
-                <span class="logo-slogan">Come vibe with the roots of fashion</span>
+                <img src="assets/header_brandname/brandname.svg" alt="Ashvatthas" class="logo-text-img">
             </div>
         </a>
         <ul class="nav-links">
@@ -470,7 +471,7 @@
             <!-- SVG logo top-left of photo -->
             <div class="hero-logo-topleft">
                 <div class="logo-circle">
-                    <img src="assets/logo/Ashvatthas.svg" alt="Ashvatthas" style="width:100px;height:100px;object-fit:contain;">
+                    <img src="assets/logo/Ashvatthas.svg" alt="Ashvatthas" style="width:100px;height:100px;object-fit:contain;mix-blend-mode:multiply;background:transparent;">
                 </div>
             </div>
             <!-- Campaign text on image -->
@@ -512,8 +513,7 @@
     <footer>
         <div class="footer-top">
             <div class="footer-brand-block">
-                <div class="footer-brand-name">Ashvatthas</div>
-                <div class="footer-brand-tagline">Come vibe with the roots of fashion</div>
+                <img src="assets/header_brandname/brandname.svg" alt="Ashvatthas" class="footer-brand-img">
             </div>
             <div class="footer-socials">
                 <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
@@ -909,7 +909,7 @@
         //   Buttons never trigger image zoom logic
 
         let ppZoomLevel = 0;
-        const ppZoomLevels = [1, 2, 3];   // 1× 2× 3×
+        const ppZoomLevels = [1, 2, 3, 4, 5];   // 1× 2× 3× 4× 5×
         let ppPanX = 0, ppPanY = 0;
 
         function _ppClamp(scale) {
@@ -1030,20 +1030,18 @@
                 if (!tDragging) return;
                 tDragging = false;
                 frame.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
-                if (tDragMoved) return;   // was a pan drag — no zoom
-                if (!isImageTarget(e.target)) return;  // not the image
+                if (tDragMoved) return;
 
+                const t = e.changedTouches[0];
                 const now = Date.now();
                 const isDoubleTap = (now - tLastTap) < 300;
                 tLastTap = now;
 
                 if (isDoubleTap) {
                     ppPanX = 0; ppPanY = 0;
-                    // Double-tap: toggle 1× ↔ 2×
                     ppZoomLevel = ppZoomLevel === 0 ? 1 : 0;
                     _ppRender(true);
                 }
-                // Single tap = nothing (no zoom, no step)
             });
         }
 
