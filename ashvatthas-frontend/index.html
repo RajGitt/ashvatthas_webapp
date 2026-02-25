@@ -1039,15 +1039,16 @@
                 frame.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
                 if (tDragMoved) return;
 
-                const t = e.changedTouches[0];
                 const now = Date.now();
                 const isDoubleTap = (now - tLastTap) < 300;
-                tLastTap = now;
 
                 if (isDoubleTap) {
+                    tLastTap = 0;
                     ppPanX = 0; ppPanY = 0;
                     ppZoomLevel = ppZoomLevel === 0 ? 1 : 0;
                     _ppRender(true);
+                } else {
+                    tLastTap = now;
                 }
             });
         }
